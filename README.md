@@ -3,7 +3,7 @@
 ![Estado](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow?style=flat-square)
 ![Licencia](https://img.shields.io/badge/Licencia-MIT-blue?style=flat-square)
 
-> [Escribe aquí una breve descripción de una o dos líneas sobre qué hace tu aplicación. Por ejemplo: Un dashboard administrativo para gestionar inventario en tiempo real.]
+> [Dashboard administrativo para gestionar la aplicación empresarial]
 
 ## 🚀 Comenzando
 
