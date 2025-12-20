@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwindcss /line-clamp;
+
+.sortable-helper {
+  cursor: move;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/Montserrat-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+strong {
+  font-weight: 600 !important;
+}
+
+ul {
+  list-style: square inside;
+}
+
+li {
+  line-height: normal;
+}
+
+.MuiTypography-h6 {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  padding-bottom: 0.2rem;
+}
+
+#descriptionSEO > h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+}
+
+#descriptionSEO > h1 > span {
+  font-size: 1rem !important;
+}
+
+#descriptionSEO > h2 > span {
+  font-size: 1rem !important;
+}
+
+#descriptionSEO > h3 > span {
+  font-size: 1rem !important;
+}
+
+#descriptionSEO > div > h2 {
+  font-weight: 600 !important;
+}
+
+#descriptionSEO > div > p {
+  font-weight: 300 !important;
+  font-size: 0.8rem !important;
+}
+
+#descriptionSEO > div > p > strong {
+  font-weight: 500 !important;
+}
