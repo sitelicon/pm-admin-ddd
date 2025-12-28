@@ -66,7 +66,7 @@ const useAccounts = (search) => {
       }));
       const response = await usersApi.getUsers(search);
       setState({
-        accounts: response.data,
+        accounts: response.items,
         accountsCount: response.total,
       });
     } catch (err) {

@@ -25,7 +25,7 @@ const useAccountRoles = () => {
     try {
       setState((prevState) => ({ ...prevState, loading: true }));
       const response = await usersApi.getRoles();
-      setState((prevState) => ({ ...prevState, roles: response }));
+      setState((prevState) => ({ ...prevState, roles: response.items }));
     } catch (error) {
       console.error(error);
       toast.error('No se pudo cargar los roles.');
@@ -52,14 +52,12 @@ export const AccountEditForm = ({ account, refetch }) => {
   const [roleId, setRoleId] = useState(1);
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [editOrderStatus, setEditOrderStatus] = useState(false);
 
   useEffect(() => {
     if (account) {
       setName(account.name);
       setEmail(account.email);
       setRoleId(account.role?.id);
-      setEditOrderStatus(account.edit_order_status);
     }
   }, [account]);
 
@@ -77,7 +75,6 @@ export const AccountEditForm = ({ account, refetch }) => {
           name,
           email,
           roleId,
-          edit_order_status: editOrderStatus,
           password: password.length > 0 ? password : undefined,
         });
         toast.success('Los cambios se han guardado correctamente.');
@@ -89,16 +86,7 @@ export const AccountEditForm = ({ account, refetch }) => {
         setUpdating(false);
       }
     },
-    [
-      account,
-      name,
-      email,
-      roleId,
-      password,
-      refetch,
-      repeatPassword,
-      editOrderStatus,
-    ],
+    [account, name, email, roleId, password, refetch, repeatPassword],
   );
 
   const handleDelete = useCallback(
@@ -177,20 +165,6 @@ export const AccountEditForm = ({ account, refetch }) => {
               ))
             )}
           </TextField>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={editOrderStatus}
-                onChange={(event) => setEditOrderStatus(event.target.checked)}
-                disabled={loading}
-              />
-            }
-            label={
-              editOrderStatus
-                ? 'Puede editar el estado de los pedidos'
-                : 'No puede editar el estado de los pedidos'
-            }
-          />
           <TextField
             fullWidth
             type="password"

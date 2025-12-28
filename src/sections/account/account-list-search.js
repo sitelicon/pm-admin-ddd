@@ -68,7 +68,7 @@ const useAccountRoles = () => {
     try {
       setState((prevState) => ({ ...prevState, loading: true }));
       const response = await usersApi.getRoles();
-      setState((prevState) => ({ ...prevState, roles: response }));
+      setState((prevState) => ({ ...prevState, roles: response.items }));
     } catch (error) {
       console.error(error);
       toast.error('No se pudo cargar los roles.');

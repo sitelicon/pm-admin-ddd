@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01';
 import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
-import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import {
   Box,
   Breadcrumbs,
@@ -12,21 +10,16 @@ import {
   Container,
   Link,
   Stack,
-  SvgIcon,
   Typography,
 } from '@mui/material';
 import { usersApi } from '../../../api/users';
-import { useMounted } from '../../../hooks/use-mounted';
 import { usePageView } from '../../../hooks/use-page-view';
 import { Layout as DashboardLayout } from '../../../layouts/dashboard';
-import { CustomerListSearch } from '../../../sections/customer/customer-list-search';
-import { CustomerListTable } from '../../../sections/customer/customer-list-table';
 import { BreadcrumbsSeparator } from '../../../components/breadcrumbs-separator';
 import { paths } from '../../../paths';
-import { FilterFunnel01 } from '@untitled-ui/icons-react';
-import { useDebounce } from 'usehooks-ts';
 import { RoleListTable } from '../../../sections/role/role-list-table';
 import { RoleCreateModal } from '../../../sections/role/role-create-modal';
+import toast from 'react-hot-toast';
 
 const useAccountRoles = () => {
   const [state, setState] = useState({
@@ -38,7 +31,7 @@ const useAccountRoles = () => {
     try {
       setState((prevState) => ({ ...prevState, loading: true }));
       const response = await usersApi.getRoles();
-      setState((prevState) => ({ ...prevState, roles: response }));
+      setState((prevState) => ({ ...prevState, roles: response.items }));
     } catch (error) {
       console.error(error);
       toast.error('No se pudo cargar los roles.');

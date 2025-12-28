@@ -205,13 +205,7 @@ export const AccountListTable = (props) => {
                         </Typography>
                       )}
                     </TableCell>
-                    <TableCell>
-                      {format(
-                        new Date(account.created_at),
-                        'dd/MM/yyyy HH:mm:ss',
-                        { locale: es },
-                      )}
-                    </TableCell>
+                    <TableCell>{account.created_at}</TableCell>
                     <TableCell align="right">
                       <IconButton
                         component={NextLink}

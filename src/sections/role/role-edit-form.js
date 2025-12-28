@@ -10,7 +10,6 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
-  List,
   ListItem,
   ListItemText,
   Stack,
@@ -23,7 +22,7 @@ import { useRouter } from 'next/router';
 import { paths } from '../../paths';
 import { useSections } from '../../layouts/dashboard/config';
 import { SeverityPill } from '../../components/severity-pill';
-import { CheckSquare, Square, XSquare } from '@untitled-ui/icons-react';
+import { CheckSquare, Square } from '@untitled-ui/icons-react';
 
 export const RoleEditForm = ({ role, refetch }) => {
   const router = useRouter();

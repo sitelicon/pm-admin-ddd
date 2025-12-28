@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback } from 'react';
 import NextLink from 'next/link';
 import PropTypes from 'prop-types';
 import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight';
-import Edit02Icon from '@untitled-ui/icons-react/build/esm/Edit02';
 import {
-  Avatar,
   Box,
   Button,
   Checkbox,
@@ -13,23 +11,16 @@ import {
   Skeleton,
   Stack,
   SvgIcon,
-  Tab,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import { Scrollbar } from '../../components/scrollbar';
-import { paths } from '../../paths';
-import { getInitials } from '../../utils/get-initials';
-import { getLangFlag, getLangTitle } from '../../utils/get-lang-flag';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { TablePaginationActions } from '../../components/table-pagination-actions';
 import { useSelectionModel } from '../../hooks/use-selection-model';
 
 export const RoleListTable = (props) => {
@@ -158,20 +149,8 @@ export const RoleListTable = (props) => {
                         {role.name}
                       </Link>
                     </TableCell>
-                    <TableCell>
-                      {format(
-                        new Date(role.created_at),
-                        'dd/MM/yyyy HH:mm:ss',
-                        { locale: es },
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {format(
-                        new Date(role.updated_at),
-                        'dd/MM/yyyy HH:mm:ss',
-                        { locale: es },
-                      )}
-                    </TableCell>
+                    <TableCell>{role.created_at}</TableCell>
+                    <TableCell>{role.updated_at}</TableCell>
                     <TableCell align="right">
                       <IconButton
                         component={NextLink}
