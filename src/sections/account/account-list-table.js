@@ -127,12 +127,13 @@ export const AccountListTable = (props) => {
                   onChange={handleToggleAll}
                 />
               </TableCell>
-              <TableCell>ID</TableCell>
+
               <TableCell>Nombre</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Rol</TableCell>
+              <TableCell>Estado</TableCell>
               <TableCell>Fecha de registro</TableCell>
-              <TableCell align="right">Acciones</TableCell>
+              <TableCell align="right">Ver más</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -180,7 +181,6 @@ export const AccountListTable = (props) => {
                         value={isSelected}
                       />
                     </TableCell>
-                    <TableCell>{account.id}</TableCell>
                     <TableCell>
                       <Link
                         color="primary"
@@ -205,7 +205,18 @@ export const AccountListTable = (props) => {
                         </Typography>
                       )}
                     </TableCell>
-                    <TableCell>{account.created_at}</TableCell>
+                    <TableCell>
+                      {account.deleted_at ? 'Eliminado' : 'En uso'}
+                    </TableCell>
+                    <TableCell>
+                      {format(
+                        new Date(account.created_at),
+                        'd MMMM, yyyy - HH:mm:ss',
+                        {
+                          locale: es,
+                        },
+                      )}
+                    </TableCell>
                     <TableCell align="right">
                       <IconButton
                         component={NextLink}

@@ -86,7 +86,6 @@ export const RoleListTable = (props) => {
                   onChange={handleToggleAll}
                 />
               </TableCell>
-              <TableCell>ID</TableCell>
               <TableCell>Nombre</TableCell>
               <TableCell>Fecha de registro</TableCell>
               <TableCell>Fecha de actualización</TableCell>
@@ -138,7 +137,6 @@ export const RoleListTable = (props) => {
                         value={isSelected}
                       />
                     </TableCell>
-                    <TableCell>{role.id}</TableCell>
                     <TableCell>
                       <Link
                         color="primary"
@@ -149,8 +147,24 @@ export const RoleListTable = (props) => {
                         {role.name}
                       </Link>
                     </TableCell>
-                    <TableCell>{role.created_at}</TableCell>
-                    <TableCell>{role.updated_at}</TableCell>
+                    <TableCell>
+                      {format(
+                        new Date(role.created_at),
+                        'd MMMM, yyyy - HH:mm:ss',
+                        {
+                          locale: es,
+                        },
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {format(
+                        new Date(role.updated_at),
+                        'd MMMM, yyyy - HH:mm:ss',
+                        {
+                          locale: es,
+                        },
+                      )}
+                    </TableCell>
                     <TableCell align="right">
                       <IconButton
                         component={NextLink}

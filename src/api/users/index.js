@@ -79,6 +79,10 @@ class UsersApi {
   async getRoles() {
     const response = await apiRequest('admin/roles', {
       method: 'GET',
+      params: {
+        sort_by: 'name',
+        order: 'asc',
+      },
     });
 
     return response;
