@@ -35,7 +35,7 @@ class UsersApi {
         name,
         email,
         password,
-        roleId,
+        user_role_id: roleId,
         edit_order_status,
       }),
     });
@@ -52,7 +52,7 @@ class UsersApi {
         name,
         email,
         password,
-        roleId,
+        user_role_id: roleId,
       }),
     });
 

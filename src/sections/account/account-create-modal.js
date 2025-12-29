@@ -142,6 +142,7 @@ export const AccountCreateModal = ({ open, onClose, onConfirm, ...other }) => {
                   autoComplete="new-account-password"
                   label="Contraseña"
                   onChange={(event) => setPassword(event.target.value)}
+                  helperText="La contraseña debe tener al menos 8 caracteres, incluyendo una letra mayúscula, una minúscula, un número y un carácter especial."
                   value={password}
                   required
                 />

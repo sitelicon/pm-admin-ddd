@@ -11,15 +11,10 @@ import {
   OutlinedInput,
   Stack,
   SvgIcon,
-  Tab,
-  Tabs,
   TextField,
   Typography,
 } from '@mui/material';
 import { useUpdateEffect } from '../../hooks/use-update-effect';
-import { MultiSelect } from '../../components/multi-select';
-import { DatePicker } from '@mui/x-date-pickers';
-import { useStores } from '../../hooks/use-stores';
 import toast from 'react-hot-toast';
 import { usersApi } from '../../api/users';
 
@@ -154,9 +149,8 @@ export const AccountListSearch = (props) => {
           chips.push({
             key: 'roleId',
             label: 'Rol',
-            value: parseInt(value, 10),
-            displayValue: roles.find((role) => role.id === parseInt(value, 10))
-              ?.name,
+            value: value,
+            displayValue: roles.find((role) => role.id === value)?.name,
           });
         }
 
