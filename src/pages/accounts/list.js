@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01';
 import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
-import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import {
   Box,
   Breadcrumbs,
@@ -16,11 +14,8 @@ import {
   Typography,
 } from '@mui/material';
 import { usersApi } from '../../api/users';
-import { useMounted } from '../../hooks/use-mounted';
 import { usePageView } from '../../hooks/use-page-view';
 import { Layout as DashboardLayout } from '../../layouts/dashboard';
-import { CustomerListSearch } from '../../sections/customer/customer-list-search';
-import { CustomerListTable } from '../../sections/customer/customer-list-table';
 import { BreadcrumbsSeparator } from '../../components/breadcrumbs-separator';
 import { paths } from '../../paths';
 import { FilterFunnel01 } from '@untitled-ui/icons-react';

@@ -1,12 +1,13 @@
 import { apiRequest } from '../../utils/api-request';
 
 class CountriesAPI {
-  async getCountries($params) {
-    const { search, page, perPage, sortBy, sortDir } = $params;
+  async getCountries(params) {
+    console.log(params);
+    const { filters, page, perPage, sortBy, sortDir } = params;
     const result = await apiRequest('admin/countries', {
       method: 'GET',
       params: {
-        search,
+        search: filters.search,
         page,
         per_page: perPage,
         sort_by: sortBy,

@@ -25,6 +25,7 @@ import { paths } from '../../paths';
 import { MultiSelect } from '../../components/multi-select';
 import { CountryCreateModal } from '../../sections/countries/countries-create-modal';
 import { CountriesListTable } from '../../sections/countries/countries-list-table';
+import { CountriesSearch } from '../../sections/countries/countries-list-search';
 
 const useSearch = () => {
   const getInitialSearch = () => {
@@ -182,6 +183,27 @@ const Page = () => {
     [updateSearch],
   );
 
+  const handleFiltersChange = useCallback(
+    (filters) => {
+      updateSearch((prevState) => ({
+        ...prevState,
+        filters,
+      }));
+    },
+    [updateSearch],
+  );
+
+  const handleSortChange = useCallback(
+    (sort) => {
+      updateSearch((prevState) => ({
+        ...prevState,
+        sortBy: sort.sortBy,
+        sortDir: sort.sortDir,
+      }));
+    },
+    [updateSearch],
+  );
+
   return (
     <>
       <Head>
@@ -249,6 +271,12 @@ const Page = () => {
             </Stack>
             <Divider />
             <Card>
+              <CountriesSearch
+                onFiltersChange={handleFiltersChange}
+                onSortChange={handleSortChange}
+                sortBy={search.sortBy}
+                sortDir={search.sortDir}
+              />
               <CountriesListTable
                 columns={columns}
                 onPageChange={handlePageChange}
