@@ -32,13 +32,13 @@ export const RoleEditForm = ({ role, refetch }) => {
   const loading = useMemo(() => updating || deleting, [updating, deleting]);
   const [name, setName] = useState('');
   const [canEdit, setCanEdit] = useState(false);
-  const [menus, setMenus] = useState([{ code: 'Inicio' }]);
+  const [menus, setMenus] = useState([]);
 
   useEffect(() => {
     if (role) {
       setName(role.name);
       setCanEdit(role.can_edit);
-      setMenus([{ code: 'Inicio' }, ...role.menus]);
+      setMenus([...role.menus]);
     }
   }, [role]);
 

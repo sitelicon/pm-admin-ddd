@@ -264,4 +264,7 @@ export const paths = {
       index: '/system/processes',
     },
   },
+  countries: {
+    index: '/countries',
+  },
 };

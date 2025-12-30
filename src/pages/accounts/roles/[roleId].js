@@ -5,13 +5,14 @@ import { useRouter } from 'next/router';
 import {
   Box,
   Breadcrumbs,
+  Button,
   Container,
   Link,
   Stack,
   SvgIcon,
   Typography,
 } from '@mui/material';
-import { ArrowLeft } from '@untitled-ui/icons-react';
+import { ArrowLeft, Lock01 } from '@untitled-ui/icons-react';
 import { Layout as DashboardLayout } from '../../../layouts/dashboard';
 import { paths } from '../../../paths';
 import { BreadcrumbsSeparator } from '../../../components/breadcrumbs-separator';
@@ -66,6 +67,43 @@ const Page = () => {
       setName(role.name);
     }
   }, [role]);
+
+  if (!loading && !role) {
+    return (
+      <Stack
+        spacing={2}
+        sx={{
+          py: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          textAlign: 'center',
+        }}
+      >
+        <SvgIcon sx={{ fontSize: 60 }}>
+          <Lock01 />
+        </SvgIcon>
+
+        <Box>
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+            ¡Ups!
+          </Typography>
+
+          <Typography variant="body1" color="text.secondary">
+            No hemos encontrado el rol solicitado.
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            onClick={() => router.push(paths.accounts.roles.index)}
+          >
+            Volver a la lista de roles
+          </Button>
+        </Box>
+      </Stack>
+    );
+  }
 
   return (
     <>

@@ -13,9 +13,10 @@ export function TablePaginationActions(props) {
     props;
 
   const isUnknownCount = count === -1;
+  const lastPage = Math.ceil(count / rowsPerPage);
 
   const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
+    onPageChange(event, 1);
   };
 
   const handleBackButtonClick = (event) => {
@@ -30,7 +31,7 @@ export function TablePaginationActions(props) {
     if (isUnknownCount) {
       onPageChange(event, page + 1);
     } else {
-      onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+      onPageChange(event, Math.max(1, lastPage));
     }
   };
 

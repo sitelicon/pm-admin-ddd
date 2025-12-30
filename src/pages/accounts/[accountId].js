@@ -5,16 +5,16 @@ import { useRouter } from 'next/router';
 import {
   Box,
   Breadcrumbs,
+  Button,
   Container,
   Link,
   Stack,
   SvgIcon,
   Typography,
 } from '@mui/material';
-import { ArrowLeft } from '@untitled-ui/icons-react';
+import { ArrowLeft, UserCircle } from '@untitled-ui/icons-react';
 import { Layout as DashboardLayout } from '../../layouts/dashboard';
 import { paths } from '../../paths';
-import { useLanguageId } from '../../hooks/use-language-id';
 import { BreadcrumbsSeparator } from '../../components/breadcrumbs-separator';
 import { usersApi } from '../../api/users';
 import { AccountEditForm } from '../../sections/account/account-edit-form';
@@ -67,6 +67,43 @@ const Page = () => {
       setName(account.name);
     }
   }, [account]);
+
+  if (!loading && !account) {
+    return (
+      <Stack
+        spacing={2}
+        sx={{
+          py: 10,
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          textAlign: 'center',
+        }}
+      >
+        <SvgIcon sx={{ fontSize: 60 }}>
+          <UserCircle />
+        </SvgIcon>
+
+        <Box>
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+            ¡Ups!
+          </Typography>
+
+          <Typography variant="body1" color="text.secondary">
+            No hemos encontrado la cuenta solicitada.
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            onClick={() => router.push(paths.accounts.list.index)}
+          >
+            Volver a la lista de cuentas
+          </Button>
+        </Box>
+      </Stack>
+    );
+  }
 
   return (
     <>

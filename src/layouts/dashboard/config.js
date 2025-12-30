@@ -27,6 +27,7 @@ import {
   Users03,
   XSquare,
   ZapFast,
+  Globe04,
 } from '@untitled-ui/icons-react';
 import { paths } from '../../paths';
 
@@ -442,6 +443,15 @@ export const useSections = () => {
               path: paths.accounts.roles.index,
             },
           ],
+        },
+        {
+          title: 'Países',
+          path: paths.countries.index,
+          icon: (
+            <SvgIcon fontSize="small">
+              <Globe04 />
+            </SvgIcon>
+          ),
         },
       ],
     },
