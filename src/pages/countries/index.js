@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import Cookies from 'js-cookie';
 import {
   Box,
   Breadcrumbs,
@@ -28,33 +27,17 @@ import { CountriesListTable } from '../../sections/countries/countries-list-tabl
 import { CountriesSearch } from '../../sections/countries/countries-list-search';
 
 const useSearch = () => {
-  const getInitialSearch = () => {
-    const cookie = Cookies.get('countries_search');
-    if (cookie) {
-      try {
-        return JSON.parse(cookie);
-      } catch (e) {
-        console.error('Error al traer las cookies:', e);
-      }
-    }
-    return {
-      filters: {
-        search: undefined,
-        createdFrom: undefined,
-        createdTo: undefined,
-      },
-      page: 1,
-      perPage: 25,
-      sortBy: 'name',
-      sortDir: 'asc',
-    };
-  };
-
-  const [search, setSearch] = useState(getInitialSearch);
-
-  useEffect(() => {
-    Cookies.set('countries_search', JSON.stringify(search), { expires: 7 });
-  }, [search]);
+  const [search, setSearch] = useState({
+    filters: {
+      search: undefined,
+      createdFrom: undefined,
+      createdTo: undefined,
+    },
+    page: 1,
+    perPage: 25,
+    sortBy: 'name',
+    sortDir: 'asc',
+  });
 
   return {
     search,
