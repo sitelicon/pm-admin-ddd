@@ -43,6 +43,15 @@ class UsersApi {
     return response;
   }
 
+  async updateMenus(roleId, request = {}) {
+    const response = await apiRequest(`admin/roles/${roleId}/menus`, {
+      method: 'PUT',
+      body: JSON.stringify(request),
+    });
+
+    return response;
+  }
+
   async createUser(request = {}) {
     const { name, email, password, roleId } = request;
 
