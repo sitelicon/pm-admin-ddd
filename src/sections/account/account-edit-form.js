@@ -120,6 +120,16 @@ export const AccountEditForm = ({ account, refetch }) => {
         return;
       }
 
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      if (password.length > 0 && !passwordRegex.test(password)) {
+        toast.error(
+          'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.',
+        );
+        return;
+      }
+
       try {
         setUpdating(true);
         await usersApi.updateUserPassword(account.id, {
