@@ -2,13 +2,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import {
+  Autocomplete,
+  Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  Checkbox,
   FormControlLabel,
   Stack,
-  Switch,
   TextField,
 } from '@mui/material';
 import { usersApi } from '../../api/users';
@@ -52,6 +54,7 @@ export const AccountEditForm = ({ account, refetch }) => {
   const [roleId, setRoleId] = useState(1);
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
     if (account) {
@@ -64,18 +67,12 @@ export const AccountEditForm = ({ account, refetch }) => {
   const handleFormSubmit = useCallback(
     async (event) => {
       event.preventDefault();
-      if (password.length > 0 && password !== repeatPassword) {
-        toast.error('Las contraseñas no coinciden.');
-        return;
-      }
-
       try {
         setUpdating(true);
         await usersApi.updateUser(account.id, {
           name,
           email,
           roleId,
-          password: password.length > 0 ? password : undefined,
         });
         toast.success('Los cambios se han guardado correctamente.');
         refetch();
@@ -86,7 +83,7 @@ export const AccountEditForm = ({ account, refetch }) => {
         setUpdating(false);
       }
     },
-    [account, name, email, roleId, password, refetch, repeatPassword],
+    [account, name, email, roleId, refetch],
   );
 
   const handleDelete = useCallback(
@@ -114,103 +111,188 @@ export const AccountEditForm = ({ account, refetch }) => {
     [account, router],
   );
 
+  const handleFormSubmitPassword = useCallback(
+    async (event) => {
+      event.preventDefault();
+
+      if (password.length > 0 && password !== repeatPassword) {
+        toast.error('Las contraseñas no coinciden.');
+        return;
+      }
+
+      try {
+        setUpdating(true);
+        await usersApi.updateUserPassword(account.id, {
+          password: password.length > 0 ? password : undefined,
+        });
+        toast.success('La contraseña se ha actualizado correctamente.');
+        setPassword('');
+        setRepeatPassword('');
+        refetch();
+      } catch (error) {
+        console.error(error);
+        toast.error('No se pudo actualizar la contraseña.');
+      } finally {
+        setUpdating(false);
+      }
+    },
+    [account, password, refetch, repeatPassword],
+  );
+
   return (
-    <form onSubmit={handleFormSubmit}>
-      <Card>
-        <CardHeader
-          title="Modificar datos de la cuenta"
-          subheader="Al modificar un usuario, sus sesiones activas se cerrarán por seguridad."
-        />
-        <CardContent sx={{ py: 0 }}>
-          <TextField
-            fullWidth
-            type="text"
-            label="Nombre y apellidos"
-            margin="normal"
-            onChange={(event) => setName(event.target.value)}
-            value={name}
-            disabled={loading}
-            required
-          />
-          <TextField
-            fullWidth
-            type="email"
-            label="Correo electrónico"
-            margin="normal"
-            onChange={(event) => setEmail(event.target.value)}
-            value={email}
-            disabled={loading}
-            required
-          />
-          <TextField
-            fullWidth
-            select
-            SelectProps={{ native: true }}
-            label="Rol"
-            margin="normal"
-            onChange={(event) => setRoleId(event.target.value)}
-            value={roleId}
-            disabled={loading}
-            required
-          >
-            {loadingRoles ? (
-              <option value="" disabled>
-                Cargando roles…
-              </option>
-            ) : (
-              roles.map((role) => (
-                <option key={role.id} value={role.id}>
-                  {role.name}
-                </option>
-              ))
-            )}
-          </TextField>
-          <TextField
-            fullWidth
-            type="password"
-            label="Nueva contraseña"
-            margin="normal"
-            autoComplete="new-password"
-            onChange={(event) => setPassword(event.target.value)}
-            value={password}
-            disabled={loading}
-          />
-          <TextField
-            fullWidth
-            type="password"
-            label="Repetir contraseña"
-            margin="normal"
-            onChange={(event) => setRepeatPassword(event.target.value)}
-            value={repeatPassword}
-            disabled={loading}
-            error={password.length > 0 && password !== repeatPassword}
-            helperText={
-              password.length > 0 && password !== repeatPassword
-                ? 'Las contraseñas no coinciden.'
-                : ''
-            }
-          />
-        </CardContent>
-        <Stack direction="row" spacing={2} sx={{ p: 3 }}>
-          <Button
-            color="primary"
-            type="submit"
-            variant="contained"
-            disabled={loading}
-          >
-            {updating ? 'Guardando cambios…' : 'Guardar cambios'}
-          </Button>
-          <Button
-            color="error"
-            variant="contained"
-            onClick={handleDelete}
-            disabled={loading}
-          >
-            {deleting ? 'Eliminando…' : 'Eliminar'}
-          </Button>
-        </Stack>
-      </Card>
-    </form>
+    <Stack>
+      <Box>
+        <form onSubmit={handleFormSubmit}>
+          <Card>
+            <CardHeader
+              title="Modificar datos de la cuenta"
+              subheader="Al modificar un usuario, sus sesiones activas se cerrarán por seguridad."
+            />
+            <CardContent sx={{ py: 0 }}>
+              <Stack>
+                <Stack
+                  direction={{ xs: 'column', md: 'row' }}
+                  gap={{ xs: 0, md: 2 }}
+                >
+                  <TextField
+                    fullWidth
+                    type="text"
+                    label="Nombre y apellidos"
+                    margin="normal"
+                    onChange={(event) => setName(event.target.value)}
+                    value={name}
+                    disabled={loading}
+                    required
+                  />
+                  <TextField
+                    fullWidth
+                    type="email"
+                    label="Correo electrónico"
+                    margin="normal"
+                    onChange={(event) => setEmail(event.target.value)}
+                    value={email}
+                    disabled={loading}
+                    required
+                  />
+                </Stack>
+                <Stack
+                  direction={{ xs: 'column', md: 'row' }}
+                  gap={{ xs: 0, md: 2 }}
+                >
+                  <Autocomplete
+                    disablePortal
+                    fullWidth
+                    options={roles}
+                    getOptionLabel={(option) => option.name}
+                    value={roles.find((role) => role.id === roleId) || null}
+                    onChange={(event, newValue) => {
+                      event.preventDefault();
+                      setRoleId(newValue ? newValue.id : '');
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Rol"
+                        margin="normal"
+                        disabled={loading || loadingRoles}
+                        required
+                      />
+                    )}
+                  />
+                  <FormControlLabel
+                    sx={{ minWidth: '49%' }}
+                    control={
+                      <Checkbox
+                        checked={canEdit}
+                        onChange={(event) => setCanEdit(event.target.checked)}
+                        name="can_edit_orders"
+                      />
+                    }
+                    label="Puede editar estados de pedidos"
+                    variant="body2"
+                  />
+                </Stack>
+              </Stack>
+            </CardContent>
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ p: 3 }}
+              justifyContent={'space-between'}
+            >
+              <Button
+                color="primary"
+                type="submit"
+                variant="contained"
+                disabled={loading}
+              >
+                {updating ? 'Guardando cambios…' : 'Guardar cambios'}
+              </Button>
+              <Button
+                color="error"
+                variant="outlined"
+                onClick={handleDelete}
+                disabled={loading}
+              >
+                {deleting ? 'Eliminando…' : 'Eliminar'}
+              </Button>
+            </Stack>
+          </Card>
+        </form>
+      </Box>
+      <Box>
+        <form onSubmit={handleFormSubmitPassword}>
+          <Card sx={{ mt: 3 }}>
+            <CardHeader
+              title="Cambiar contraseña"
+              subheader="Si deseas cambiar la contraseña, ingresa una nueva. De lo contrario, deja los campos vacíos."
+            />
+            <CardContent sx={{ py: 0 }}>
+              <Stack
+                direction={{ xs: 'column', md: 'row' }}
+                gap={{ xs: 0, md: 2 }}
+              >
+                <TextField
+                  fullWidth
+                  type="password"
+                  label="Nueva contraseña"
+                  margin="normal"
+                  autoComplete="new-password"
+                  onChange={(event) => setPassword(event.target.value)}
+                  value={password}
+                  disabled={loading}
+                />
+                <TextField
+                  fullWidth
+                  type="password"
+                  label="Repetir contraseña"
+                  margin="normal"
+                  onChange={(event) => setRepeatPassword(event.target.value)}
+                  value={repeatPassword}
+                  disabled={loading}
+                  error={password.length > 0 && password !== repeatPassword}
+                  helperText={
+                    password.length > 0 && password !== repeatPassword
+                      ? 'Las contraseñas no coinciden.'
+                      : ''
+                  }
+                />
+              </Stack>
+            </CardContent>
+            <Stack direction="row" spacing={2} sx={{ p: 3 }}>
+              <Button
+                color="primary"
+                type="submit"
+                variant="contained"
+                disabled={loading}
+              >
+                {updating ? 'Guardando...' : 'Guardar contraseña'}
+              </Button>
+            </Stack>
+          </Card>
+        </form>
+      </Box>
+    </Stack>
   );
 };
 

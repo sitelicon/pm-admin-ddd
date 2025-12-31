@@ -27,16 +27,28 @@ class UsersApi {
   }
 
   async updateUser(userId, request = {}) {
-    const { name, email, password, roleId, edit_order_status } = request;
+    const { name, email, roleId, edit_order_status } = request;
 
     const response = await apiRequest(`admin/users/${userId}`, {
       method: 'PUT',
       body: JSON.stringify({
         name,
         email,
-        password,
         user_role_id: roleId,
         edit_order_status,
+      }),
+    });
+
+    return response;
+  }
+
+  async updateUserPassword(userId, request = {}) {
+    const { password } = request;
+
+    const response = await apiRequest(`admin/users/${userId}/password`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        password,
       }),
     });
 
